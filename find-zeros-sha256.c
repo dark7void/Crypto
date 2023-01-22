@@ -4,6 +4,9 @@
 #include <time.h>
 
 int main() {
+	double last_rate;
+	double average_rate;
+	double last_50_rates[50];
     int how_many_zeros = 6;
     clock_t start_time = clock();
     int count = 0;
@@ -23,7 +26,38 @@ int main() {
             clock_t end_time = clock();
             count++;
             printf("found: %s\n", number);
-            printf("Hashes per second: %f\n", (double) count / ((double)(end_time - start_time) / CLOCKS_PER_SEC));
+            double rate = (double) count / ((double)(end_time - start_time) / CLOCKS_PER_SEC);
+		    for (int i = 0; i < 49; i++) {
+		        last_50_rates[i] = last_50_rates[i + 1];
+		    }
+		    last_50_rates[49] = rate;
+
+            printf("hashes per second: %f", rate);
+            
+		    int size = sizeof(last_50_rates)/sizeof(double);
+		    double sum = 0;
+		    for (int i = 0; i < size; i++) {
+		        sum += last_50_rates[i];
+		    }
+		    int empty_spaces_in_last_50_rates;
+		    for (int i = 0; i < size; i++) {
+		        if (last_50_rates[i] == 0) {
+		        	empty_spaces_in_last_50_rates++;
+		        }
+		    }
+		    double average = (float)sum / (size-empty_spaces_in_last_50_rates);
+            printf("  (average rate: %f)", average);
+            double change = rate-last_rate;
+            printf("  (rate change: %f", change);
+            last_rate = (double) count / ((double)(end_time - start_time) / CLOCKS_PER_SEC);
+
+            if (change < 0) {
+            	printf(" 🔻)\n");
+            } else if (change == 0) {
+            	printf(" --)\n");
+            } else {
+            	printf(" ↑)\n");
+            }
         }
     }
     return 0;
