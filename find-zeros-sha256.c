@@ -7,17 +7,20 @@ int main() {
 	double last_rate;
 	double average_rate;
 	double last_50_rates[50];
+    for (int i = 0; i < 49; i++) {
+        last_50_rates[i] = 0;
+    }
     int how_many_zeros = 6;
     clock_t start_time = clock();
     int count = 0;
     unsigned long long num = 0;
     char number[20];
-    sprintf(number, "dark7void%llu", num);
+    sprintf(number, "dark7void_%llu", num);
     unsigned char hashed_number[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
     while(1) {
-        sprintf(number + 9, "%llu", num);
+        sprintf(number + 10, "%llu", num);
         num++;
         SHA256_Update(&sha256, number, strlen(number));
         SHA256_Final(hashed_number, &sha256);
@@ -30,25 +33,24 @@ int main() {
 		    for (int i = 0; i < 49; i++) {
 		        last_50_rates[i] = last_50_rates[i + 1];
 		    }
-		    last_50_rates[49] = rate;
-
-            printf("hashes per second: %f", rate);
-            
-		    int size = sizeof(last_50_rates)/sizeof(double);
-		    double sum = 0;
-		    for (int i = 0; i < size; i++) {
-		        sum += last_50_rates[i];
-		    }
-		    int empty_spaces_in_last_50_rates;
-		    for (int i = 0; i < size; i++) {
+		    double non = 0;
+		    for (int i = 0; i < 49; i++) {
 		        if (last_50_rates[i] == 0) {
-		        	empty_spaces_in_last_50_rates++;
+		        	non++;
 		        }
 		    }
-		    double average = (float)sum / (size-empty_spaces_in_last_50_rates);
-            printf("  (average rate: %f)", average);
+		    last_50_rates[49] = rate;
+
+            printf("hashes per second: %.3f", rate);
+
+		    double sum = 0;
+		    for (int i = 0; i < 50; i++) {
+		        sum += last_50_rates[i];
+		    }
+		    double average = sum / (50-non);
+            printf("  (last 50 average: %.3f)", average);
             double change = rate-last_rate;
-            printf("  (rate change: %f", change);
+            printf("  (change: %.3f", change);
             last_rate = (double) count / ((double)(end_time - start_time) / CLOCKS_PER_SEC);
 
             if (change < 0) {
