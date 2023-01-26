@@ -1,7 +1,7 @@
 package main
 
 import (
-    "crypto/sha256"
+    "crypto/md5"
     "fmt"
     "runtime"
     "strconv"
@@ -10,7 +10,7 @@ import (
 )
 
 var (
-    num int64 mutex sync.Mutex wg sync.WaitGroup found int64 start time.Time
+    num int64 = 0 mutex sync.Mutex wg sync.WaitGroup found int64 start time.Time
 )
 
 func main() {
@@ -28,16 +28,19 @@ func main() {
 func findHash() {
     for {
         mutex.Lock()
-        currentNum: = num
+        var currentNum = num
         num++
         mutex.Unlock()
 
-        numStr: = strconv.FormatInt(currentNum, 10)
+        // convert number to string
+        var numStr = strconv.FormatInt(currentNum, 10)
 
-        hash: = sha256.Sum256([] byte("dark7void_" + numStr))
+        // generate sha256 hash of the string "dark7void_" + number
+        var hash = md5.Sum([] byte("dark7void_" + numStr))
+            // convert hash to string and check if it starts with 6 zeros
 
-        if hash[0] == 0 && hash[1] == 0 && hash[2] == 0 {
-            hashStr: = fmt.Sprintf("%x", hash)
+        if hash[0] == 0 && hash[1] == 0 && hash[2] == 0 /*&& hash[3] == 0*/ {
+            var hashStr = fmt.Sprintf("%x", hash)
             fmt.Println("Number:", numStr)
             fmt.Println("SHA256:", hashStr)
             mutex.Lock()
@@ -45,7 +48,6 @@ func findHash() {
             var end = time.Now()
             var diff = end.Sub(start)
             var nseconds = diff.Nanoseconds()
-            fmt.Println(found, nseconds)
             var hps float64 = float64(found) / (float64(nseconds) / 1000000000)
             fmt.Printf("Hashes per second: %f\n", hps)
             mutex.Unlock()
