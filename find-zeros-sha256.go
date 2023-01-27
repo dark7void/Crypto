@@ -1,3 +1,13 @@
+//      aprox. benchmark:
+//      1 speed: 70000/s
+//      2 speed: 18000/s
+//      3 speed: 2080/s
+//      4 speed: 136/s
+//      5 speed: 8/s
+//      6 speed: 0.6/s
+//      7 speed: 0.036/s
+//      8 speed: 0.002/s
+
 package main
 
 import (
