@@ -1,3 +1,8 @@
+# epic hashing algorythm based just on numbers
+# 7/10 hilbert would maybe recommend
+#
+# by dark7void
+
 import time
 
 a=100000
