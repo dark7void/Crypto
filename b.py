@@ -14,20 +14,20 @@ def _sigma0(num: int):
            (num >> 3))
     return num
 
-message = "a" * 10009
+message = ""
 for line in sys.stdin:
     message = message + line    
 
 message = [ord(c) for c in message]
 message = "".join([str(c) for c in message])
-print(message)
+#_print(message)
 
 message = message + "2"
     
 while len(message) % 64 != 0:
     message = message + "1"
 
-print(message)
+#_print(message)
 segment_size = len(message) // 8
 
 a = message[:segment_size]
@@ -41,7 +41,7 @@ h = message[segment_size*7:]
 
 a, b, c, d, e, f, g, h = int(a), int(b), int(c), int(d), int(e), int(f), int(g), int(h)
 for x in range(32):
-    os.system('clear')
+    #_os.system('clear')
     temp = h
 
     h = g
@@ -54,17 +54,17 @@ for x in range(32):
 
     a = temp % 2**32
     
-    print(a)
-    print(b)
-    print(c)
-    print(d)
-    print(e)
-    print(f)
-    print(g)
-    print(h)
-    time.sleep(1)
+    #_print(a)
+    #_print(b)
+    #_print(c)
+    #_print(d)
+    #_print(e)
+    #_print(f)
+    #_print(g)
+    #_print(h)
+    #_time.sleep(1)
     
-print(a, b, c, d, e, f, g, h)
+#_print(a, b, c, d, e, f, g, h)
 final = str(a)[:6]+str(b)[:6]+str(c)[:6]+str(d)[:6]+str(e)[:6]+str(f)[:6]+str(g)[:6]+str(h)[:6]
-print(final)
+#_print(final)
 print(hex(int(final)))
