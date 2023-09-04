@@ -42,7 +42,7 @@ func main() {
 		combined_str := chain_position_str + ":" + number_str + ":" + str_last_hash + ":" + input_str
 		hash := sha3.Sum256([]byte(combined_str))
 
-		if has_four_leading_zeroes(hash) {
+		if has_six_leading_zeroes(hash) {
 			//RANDOM_STUFF := strconv.Itoa((number ^ 4500) % 256)
 			//input_str = "treel0ver" + RANDOM_STUFF
 			number = 0
@@ -61,8 +61,9 @@ func main() {
 	}
 }
 
-func has_four_leading_zeroes(hash [32]byte) bool {
-	return hash[0] == 0 && hash[1] == 0 && (hash[2]&0xf0) == 0
+func has_six_leading_zeroes(hash [32]byte) bool {
+	//return hash[0] == 0 && hash[1] == 0 && (hash[2]&0xf0) == 0
+	return hash[0] == 0 && hash[1] == 0 && hash[2] == 0
 }
 
 func get_last_hash_from_file() string {
